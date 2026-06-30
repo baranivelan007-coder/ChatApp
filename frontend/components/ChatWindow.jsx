@@ -91,19 +91,6 @@ export default function ChatWindow({ activeChat, onBack }) {
     );
   }
 
-  console.log("User:", user);
-
-messages.forEach((m) => {
-  console.log({
-    sender: m.sender,
-    senderType: typeof m.sender,
-    senderString: m.sender?.toString?.(),
-    userId: user?.id,
-    equal:
-      (m.sender?.toString?.() || m.sender) === user?.id,
-  });
-});
-
   return (
     <div className="flex-1 flex flex-col h-full bg-chat-bg">
       <div className="bg-gradient-to-r from-brand-700 via-brand-600 to-brand-500 text-white p-4 flex items-center gap-3 shadow-md">
