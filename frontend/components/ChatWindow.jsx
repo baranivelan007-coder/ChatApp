@@ -11,6 +11,7 @@ export default function ChatWindow({ activeChat, onBack }) {
   const [otherTyping, setOtherTyping] = useState(false);
   const typingTimeoutRef = useRef(null);
   const bottomRef = useRef(null);
+  const [activeChat, setActiveChat] = useState(null);
 
   const otherUserId = activeChat?._id || activeChat?.id;
 
@@ -76,6 +77,14 @@ export default function ChatWindow({ activeChat, onBack }) {
   };
 
   const isOnline = onlineUserIds.has(otherUserId);
+
+  if (!activeChat) {
+    return (
+      <div className="flex-1 hidden md:flex items-center justify-center text-grey-400 bg-whatsapp-chat">
+        Select a chat to start messaging
+      </div>
+    );
+  }
 
   return (
     <div className="flex-1 flex flex-col h-full bg-whatsapp-chat">
