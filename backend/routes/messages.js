@@ -5,8 +5,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// @route GET /api/messages/:otherUserId
-// Fetch full conversation history between logged-in user and otherUserId
 router.get('/:otherUserId', authMiddleware, async (req, res) => {
   try {
     const myId = req.user._id;

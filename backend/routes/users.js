@@ -5,8 +5,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// @route GET /api/users/find/:uniqueId
-// Look up a user by their public uniqueId (this is the "discovery" step)
 router.get('/find/:uniqueId', authMiddleware, async (req, res) => {
   try {
     const targetId = req.params.uniqueId.toUpperCase();
@@ -26,9 +24,6 @@ router.get('/find/:uniqueId', authMiddleware, async (req, res) => {
   }
 });
 
-// @route GET /api/users/contacts
-// Returns the list of people the logged-in user has exchanged messages with,
-// i.e. their "chat list" sidebar
 router.get('/contacts', authMiddleware, async (req, res) => {
   try {
     const myId = req.user._id;

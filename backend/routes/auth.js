@@ -7,7 +7,6 @@ const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 
-// Generates a unique, human-friendly ID like "U7X9K2A4" and guarantees no collision
 async function generateUniqueId() {
   let id;
   let exists = true;
@@ -18,7 +17,6 @@ async function generateUniqueId() {
   return id;
 }
 
-// @route POST /api/auth/signup
 router.post('/signup', async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -50,7 +48,6 @@ router.post('/signup', async (req, res) => {
   }
 });
 
-// @route POST /api/auth/login
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -71,9 +68,11 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// @route GET /api/auth/me  (verify token / get current user)
 router.get('/me', authMiddleware, async (req, res) => {
-  res.json({ user: req.user });
+  const user = req.user;
+  res.json({
+    user: { id: user._id, name: user.name, email: user.email, uniqueId: user.uniqueId },
+  });
 });
 
 module.exports = router;

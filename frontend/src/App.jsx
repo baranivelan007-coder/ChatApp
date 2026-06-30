@@ -6,9 +6,22 @@ import Chat from '../pages/Chat.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { SocketProvider } from '../context/SocketContext.jsx';
 
+function LoadingScreen() {
+  return (
+    <div className="h-screen flex flex-col items-center justify-center gap-4 auth-bg">
+      <div className="flex gap-2">
+        <span className="w-3 h-3 rounded-full bg-white pulse-dot" style={{ animationDelay: '0s' }} />
+        <span className="w-3 h-3 rounded-full bg-white pulse-dot" style={{ animationDelay: '0.15s' }} />
+        <span className="w-3 h-3 rounded-full bg-white pulse-dot" style={{ animationDelay: '0.3s' }} />
+      </div>
+      <p className="text-white/80 text-sm font-medium tracking-wide">Loading your chats...</p>
+    </div>
+  );
+}
+
 function ProtectedRoute({ children }) {
   const { user, loading } = useAuth();
-  if (loading) return <div className="h-screen flex items-center justify-center">Loading...</div>;
+  if (loading) return <LoadingScreen />;
   if (!user) return <Navigate to="/login" replace />;
   return <SocketProvider>{children}</SocketProvider>;
 }

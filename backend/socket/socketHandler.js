@@ -2,11 +2,9 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const Message = require('../models/Message');
 
-// Maps MongoDB _id (string) -> socket.id, so we know where to deliver messages
 const onlineUsers = new Map();
 
 function initSocket(io) {
-  // Authenticate every socket connection using the same JWT as REST routes
   io.use(async (socket, next) => {
     try {
       const token = socket.handshake.auth?.token;
@@ -16,7 +14,7 @@ function initSocket(io) {
       const user = await User.findById(decoded.userId).select('-password');
       if (!user) return next(new Error('User not found'));
 
-      socket.user = user; // attach full user doc to this socket
+      socket.user = user;
       next();
     } catch (err) {
       next(new Error('Authentication error'));
@@ -30,7 +28,6 @@ function initSocket(io) {
     await User.findByIdAndUpdate(userId, { isOnline: true });
     socket.broadcast.emit('userOnline', { userId });
 
-    // --- Send message ---
     socket.on('sendMessage', async ({ receiverId, text }) => {
       try {
         const message = await Message.create({
@@ -47,20 +44,17 @@ function initSocket(io) {
           createdAt: message.createdAt,
         };
 
-        // Send to receiver if they're online
         const receiverSocketId = onlineUsers.get(receiverId);
         if (receiverSocketId) {
           io.to(receiverSocketId).emit('receiveMessage', payload);
         }
 
-        // Echo back to sender (so their own UI updates, e.g. across multiple tabs)
         socket.emit('messageSent', payload);
       } catch (err) {
         socket.emit('errorMessage', { message: 'Failed to send message' });
       }
     });
 
-    // --- Typing indicators ---
     socket.on('typing', ({ receiverId }) => {
       const receiverSocketId = onlineUsers.get(receiverId);
       if (receiverSocketId) {
@@ -75,7 +69,6 @@ function initSocket(io) {
       }
     });
 
-    // --- Disconnect ---
     socket.on('disconnect', async () => {
       onlineUsers.delete(userId);
       await User.findByIdAndUpdate(userId, { isOnline: false, lastSeen: new Date() });

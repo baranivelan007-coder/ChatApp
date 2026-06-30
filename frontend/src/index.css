@@ -1,13 +1,61 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 @theme {
-  --color-whatsapp-green: #075E54;
-  --color-whatsapp-light: #25D366;
-  --color-whatsapp-chat: #ECE5DD;
-  --color-whatsapp-bubble: #DCF8C6;
+  --color-brand-50: #f8fafc;
+  --color-brand-100: #e2e8f0;
+  --color-brand-400: #64748b;
+  --color-brand-500: #334155;
+  --color-brand-600: #1e293b;
+  --color-brand-700: #0f172a;
+
+  --color-chat-bg: #f1f1f3;
+  --color-bubble-mine: #1e293b;
+  --color-bubble-theirs: #ffffff;
+
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd2d9;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.auth-bg {
+  background: radial-gradient(circle at 15% 20%, #ffffff14, transparent 40%),
+    radial-gradient(circle at 85% 80%, #ffffff10, transparent 40%),
+    linear-gradient(135deg, #0f172a 0%, #1e293b 45%, #334155 100%);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px -15px rgba(15, 23, 42, 0.5);
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
+@keyframes pulse-dot {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+.pulse-dot {
+  animation: pulse-dot 1.4s infinite ease-in-out both;
 }

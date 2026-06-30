@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
       setLoading(false);
     };
     init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
 
   const signup = async (name, email, password) => {
