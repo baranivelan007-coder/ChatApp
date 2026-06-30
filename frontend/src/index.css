@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+@theme {
+  --color-whatsapp-green: #075E54;
+  --color-whatsapp-light: #25D366;
+  --color-whatsapp-chat: #ECE5DD;
+  --color-whatsapp-bubble: #DCF8C6;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
