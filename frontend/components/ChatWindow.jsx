@@ -11,7 +11,6 @@ export default function ChatWindow({ activeChat, onBack }) {
   const [otherTyping, setOtherTyping] = useState(false);
   const typingTimeoutRef = useRef(null);
   const bottomRef = useRef(null);
-  const [activeChat, setActiveChat] = useState(null);
 
   const otherUserId = activeChat?._id || activeChat?.id;
 
