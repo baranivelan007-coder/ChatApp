@@ -46,7 +46,7 @@ export default function Sidebar({ activeChat, onSelectChat }) {
   };
 
   return (
-    <div className="w-full md:w-80 bg-white border-r flex flex-col h-full">
+    <div className="w-full bg-white border-r flex flex-col h-full">
       <div className="bg-whatsapp-green text-white p-4 flex items-center justify-between">
         <div>
           <p className="font-semibold">{user?.name}</p>

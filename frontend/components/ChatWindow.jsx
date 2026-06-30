@@ -3,7 +3,7 @@ import api from '../api';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useSocket } from '../context/SocketContext.jsx';
 
-export default function ChatWindow({ activeChat }) {
+export default function ChatWindow({ activeChat, onBack }) {
   const { user } = useAuth();
   const { socket, onlineUserIds } = useSocket();
   const [messages, setMessages] = useState([]);
@@ -14,14 +14,12 @@ export default function ChatWindow({ activeChat }) {
 
   const otherUserId = activeChat?._id || activeChat?.id;
 
-  // Load conversation history when chat changes
   useEffect(() => {
     if (!otherUserId) return;
     setMessages([]);
     api.get(`/messages/${otherUserId}`).then((res) => setMessages(res.data.messages));
   }, [otherUserId]);
 
-  // Listen for incoming real-time events
   useEffect(() => {
     if (!socket) return;
 
@@ -77,19 +75,14 @@ export default function ChatWindow({ activeChat }) {
     }, 1500);
   };
 
-  if (!activeChat) {
-    return (
-      <div className="flex-1 flex items-center justify-center bg-whatsapp-chat">
-        <p className="text-gray-400">Select a chat or search a Chat ID to start messaging</p>
-      </div>
-    );
-  }
-
   const isOnline = onlineUserIds.has(otherUserId);
 
   return (
     <div className="flex-1 flex flex-col h-full bg-whatsapp-chat">
       <div className="bg-whatsapp-green text-white p-4 flex items-center gap-3">
+        <button onClick={onBack} className="md:hidden text-white text-2xl leading-none mr-1">
+          ←
+        </button>
         <div className="w-10 h-10 rounded-full bg-white text-whatsapp-green flex items-center justify-center font-semibold">
           {activeChat.name?.[0]?.toUpperCase()}
         </div>
